@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Multi-Category Quiz</title>
+    <!-- Load Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Inter Font -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f1f5f9; /* Slate 100 */
+        }
+    </style>
+    <!-- Load jsPDF and html2canvas for PDF Download functionality -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+    <div class="p-2 py-1">
+            <h1 class="user-text mb-1 text-center shadow-lg text-2xl font-semibold text-slate-600"></h1>
+            <img id="log-btn" src="./log.png" class="w-7 h-7 cursor-pointer mt-1" style="margin-left: 97%;" alt=""/>
+    </div>
+    <div id="app" class="min-h-screen flex items-center flex-col justify-center p-4">
+        <div class="w-full max-w-2xl bg-white shadow-2xl rounded-xl p-8 transition-all duration-300">
+            
+            <!-- Header -->
+            <h1 class="text-3xl font-extrabold text-center mb-6 text-indigo-700">
+                The Codyfy With Me & Programming and History Quiz
+            </h1>
+
+            <!-- Message Box for Alerts (Instead of alert()) -->
+            <div id="message-box" class="hidden p-3 mb-4 text-sm text-yellow-800 rounded-lg bg-yellow-50" role="alert"></div>
+
+            <!-- 1. Category Selection Screen -->
+            <div id="category-screen">
+                <p class="text-lg text-gray-600 mb-6 text-center">Select a category to begin your 30-question challenge. Good luck!</p>
+                <div id="category-list" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Categories will be injected here by JS -->
+                </div>
+            </div>
+
+            <!-- 2. Quiz Screen -->
+            <div id="quiz-screen" class="hidden">
+                <div class="flex justify-between items-center mb-6 border-b pb-4">
+                    <div id="quiz-title" class="text-xl font-bold text-gray-800"></div>
+                    <div class="flex items-center space-x-4">
+                        <div id="question-counter" class="text-sm font-medium text-indigo-500 bg-indigo-100 px-3 py-1 rounded-full">Q 1 / 30</div>
+                        <div id="timer" class="text-lg font-extrabold text-red-600 bg-red-100 px-4 py-2 rounded-lg shadow">05:00</div>
+                    </div>
+                </div>
+
+                <div id="question-content" class="text-xl font-semibold text-gray-900 mb-6">
+                    <!-- Question text goes here -->
+                </div>
+
+                <div id="options-container" class="space-y-3">
+                    <!-- Answer options go here -->
+                </div>
+
+                <div class="mt-8 flex justify-end">
+                    <button id="next-button" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-6 rounded-lg shadow-lg transition duration-150 ease-in-out disabled:opacity-50">
+                        Next Question
+                    </button>
+                </div>
+            </div>
+
+            <!-- 3. Result Screen -->
+            <div id="result-screen" class="hidden text-center py-6">
+                <h2 class="text-3xl font-bold text-green-600 mb-4">Quiz Complete!</h2>
+                <div id="result-details" class="bg-gray-50 p-6 rounded-xl shadow-inner mb-8">
+                    <div class="text-2xl mb-2 font-medium text-gray-700">Category: <span id="final-category" class="font-bold text-indigo-600"></span></div>
+                    <div class="text-4xl font-extrabold text-gray-900 mb-4">
+                        Your Score: <span id="final-score" class="text-green-600">0</span> / 30
+                    </div>
+                    <p id="result-message" class="text-lg text-gray-600"></p>
+                    <div class="flex justify-center mt-4 space-x-4">
+                        <div class="flex flex-col items-center">
+                            <span id="correct-count" class="text-3xl font-bold text-green-500">0</span>
+                            <span class="text-sm text-gray-500">Correct</span>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <span id="incorrect-count" class="text-3xl font-bold text-red-500">0</span>
+                            <span class="text-sm text-gray-500">Incorrect</span>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <span id="time-taken" class="text-3xl font-bold text-blue-500">0s</span>
+                            <span class="text-sm text-gray-500">Time Taken</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+                    <button onclick="startNewQuiz()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-8 rounded-lg shadow-xl transition duration-150 ease-in-out transform hover:scale-105">
+                        Start New Quiz
+                    </button>
+                    <button onclick="downloadResultsPDF()" class="bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-8 rounded-lg shadow-xl transition duration-150 ease-in-out transform hover:scale-105">
+                        Download Result (PDF)
+                    </button>
+                </div>
+            </div>
+
+            <!-- Hidden PDF content container (what gets converted to PDF) -->
+            <div id="pdf-content-container" class="p-8 hidden">
+                <!-- PDF content will be dynamically generated here -->
+            </div>
+
+        </div>
+    </div>
+   <script src="./index.js"></script>
+</body>
+</html>
